@@ -22,9 +22,9 @@ org     0x08048000
 ehdr:
             db      0x7F, "ELF"                 ; e_ident
             db      2, 1, 1, 0
-            db  0                               ; pad before code starts
-_start:     mov dil, 42                         ; combined code/EI_PAD
-            mov al, 60
+            db      0                           ; pad before code starts
+_start:     mov     dil, 42                     ; combined code/EI_PAD
+            mov     al, 60
             syscall
             dw      2                           ; e_type
             dw      0x3E                        ; e_machine
