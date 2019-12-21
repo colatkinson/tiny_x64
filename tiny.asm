@@ -33,14 +33,8 @@ _start:     mov     dil, 42                     ; combined code/EI_PAD
             dq      phdr - $$                   ; e_phoff
             dq      0                           ; e_shoff
             dd      0                           ; e_flags
-            dw      ehdrsize                    ; e_ehsize
-            dw      phdrsize                    ; e_phentsize
-            dw      1                           ; e_phnum
-            dw      0                           ; e_shentsize
-            dw      0                           ; e_shnum
-            dw      0                           ; e_shstrndx
-
-ehdrsize    equ     $ - ehdr
+            dw      ehdrsize                    ; e_ehsize (64)
+            dw      phdrsize                    ; e_phentsize (56)
 
 ; typedef struct elf64_phdr {
 ;   Elf64_Word p_type;
@@ -54,8 +48,9 @@ ehdrsize    equ     $ - ehdr
 ; } Elf64_Phdr;
 
 phdr:
-            dd      1                           ; p_type
-            dd      5                           ; p_flags
+            dd      1                           ; p_type / e_phnum + e_shentsize
+            dd      5                           ; p_flags / e_shnum + e_shstrndx
+ehdrsize    equ     $ - ehdr
             dq      0                           ; p_offset
             dq      $$                          ; p_vaddr
             dq      $$                          ; p_paddr
